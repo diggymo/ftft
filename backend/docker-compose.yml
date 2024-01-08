@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  ftft-db:
+    image: postgres:15.2-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - $PWD/database/postgres:/var/lib/postgresql/data
+  ftft-dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./database/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+  dynamodb-admin:
+    container_name: dynamodb-admin
+    image: aaronshaf/dynamodb-admin:latest
+    environment:
+      - DYNAMO_ENDPOINT=ftft-dynamodb-local:8000
+    ports:
+      - 8001:8001
+    depends_on:
+      - dynamodb

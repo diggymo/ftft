@@ -1,0 +1,29 @@
+name: CDKのdiffを出力します
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./iac
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    - run: |
+        npm install
+        npm install -g aws-cdk
+
+    - name: CDKの差分を出力します
+      run: cdk diff
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ap-northeast-1

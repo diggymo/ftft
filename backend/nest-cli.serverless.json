@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "entryFile": "src/entrypoint/serverless",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "plugins": [{
+      "name": "@nestjs/swagger",
+      "options": {
+        "introspectComments": true
+      }
+    }]
+  }
+}

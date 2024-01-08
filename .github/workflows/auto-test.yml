@@ -1,0 +1,37 @@
+on:
+  pull_request:
+    paths:
+      - "backend/**"
+
+jobs:
+  auto-test:
+    env:
+      JWT_SECRET: sample_jwt_secret
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/mydb?schema=dev
+      TZ: Asia/Tokyo
+    services:
+      db:
+        image: postgres:15.2-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mydb
+        ports:
+          - '5432:5432'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: yarn global add @nestjs/cli
+      - run: yarn install --frozen-lockfile
+      - run: yarn prisma generate
+      - run: yarn test --forceExit --collect-coverage
+      - uses: romeovs/lcov-reporter-action@v0.3.1
+        with:
+          lcov-file: ./backend/coverage/lcov.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
