@@ -8,3 +8,6 @@ node_modules
 cdk.out
 
 *.pem
+
+# 機密情報
+.env

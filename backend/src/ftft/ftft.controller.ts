@@ -26,12 +26,28 @@ export class FtftController {
   @Post('')
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  createFtft(@AuthorizedUser() user: UserFragment, @Body() _body: any) {
+  async createFtft(@AuthorizedUser() user: UserFragment, @Body() _body: any) {
     const body = z
       .object({
         title: z.string().min(1),
+        fileUrls: z.array(z.string().min(1)),
+        emoji: z.string().min(1).optional(),
+        location: z
+          .object({
+            lat: z.number(),
+            lng: z.number(),
+          })
+          .optional(),
       })
       .parse(_body);
-    return this.ftftService.createFtft({ ftft: { userId: user.userId, title: body.title } });
+    return this.ftftService.createFtft({
+      ftft: {
+        userId: user.userId,
+        title: body.title,
+        fileUrls: body.fileUrls,
+        emoji: body.emoji,
+        location: body.location,
+      },
+    });
   }
 }

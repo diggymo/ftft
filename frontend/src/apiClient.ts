@@ -1,0 +1,1 @@
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://8bi1460wy2.execute-api.ap-northeast-3.amazonaws.com/prod"

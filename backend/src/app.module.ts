@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { DynamodbModule } from './dynamodb/dynamodb.module';
 import { FtftModule } from './ftft/ftft.module';
+import { StorageModule } from './storage/storage.module';
+import { SocialLoginModule } from './sociallogin/sociallogin.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { FtftModule } from './ftft/ftft.module';
     DynamodbModule,
     AuthModule,
     UserModule,
+    StorageModule,
+    SocialLoginModule,
     DynamodbModule,
     FtftModule,
   ],
