@@ -33,15 +33,15 @@ export const Home = () => {
       console.log(res.status)
       if (res.status !== 201) throw new Error("送信できませんでした")
 
-      const message = "%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AExx%E3%82%92%E9%81%94%E6%88%90%F0%9F%9A%80%0D%0Aat%20FTFT"
+      const message = "🎉はじめてのxxを達成🎊 \n\nFTFTであなたの\"はじめて\"を記録しよう\n"
       toast({
         position: 'bottom',
         title: "記録しました✍️",
         description: <p>
           友達に
-          <Link target="_blank" href={`https://line.me/R/share?text=${message}`}>LINE</Link>
+          <Link target="_blank" href={`https://line.me/R/share?text=${encodeURI(message)}`}><u>LINE</u></Link>
           や
-          <Link target="_blank" href={`https://twitter.com/intent/tweet?text=${message}&url=https://d3ozb6rt05ntqw.cloudfront.net/`}>X</Link>
+          <Link target="_blank" href={`https://twitter.com/intent/tweet?text=${encodeURI(message)}&url=https://ftft.morifuji-is.ninja/`}><u>X</u></Link>
           で共有しよう🥰
         </p>
       })
