@@ -29,7 +29,6 @@ export class FtftService {
     };
   }) {
     const fileKeyList = ftft.fileUrls.map((fileUrl) => fileUrl.split('.amazonaws.com/')[1].split('?')[0]);
-    console.log({ a: ftft.location });
     const ftftRecord = DbSchema.parse({
       userId: ftft.userId,
       title: ftft.title,

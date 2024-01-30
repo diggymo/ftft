@@ -70,7 +70,7 @@ export const Login = () => {
         <Text fontSize="4xl" fontWeight="bold"><ServiceTitle>FTFTで</ServiceTitle></Text>
 
         
-        <Text fontSize="3xl" fontWeight="bold" >はじめてを記録しよう</Text>
+        <Text fontSize="3xl" fontWeight="bold" >はじめてを記録しよう✍️</Text>
         </Box>
 
         <Divider/>
