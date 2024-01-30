@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react'
 import liff from '@line/liff';
 import { API_BASE_URL } from './apiClient';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ServiceTitle } from './ServiceTitle';
 
 export const Login = () => {
 
@@ -41,9 +42,10 @@ export const Login = () => {
     if (response.status !== 201) throw new Error("ログインに失敗しました")
     const json = await response.json()
 
+    localStorage.setItem("authorization", json.accessToken)
+
     navigate({
       pathname: '/',
-      search: '?authorization=' + json.accessToken,
     })
     toast({
       position: 'bottom',
@@ -63,8 +65,13 @@ export const Login = () => {
 
   return (
     <Box display="grid" placeContent="center" height="100vh">
-      <Box display="flex"  flexDirection="column" alignItems="center" gap={4}>
-        <Text size="lg">ログイン</Text>
+      <Box display="flex"  flexDirection="column" alignItems="center" gap={8} padding={8}>
+        <Box>
+        <Text fontSize="4xl" fontWeight="bold"><ServiceTitle>FTFTで</ServiceTitle></Text>
+
+        
+        <Text fontSize="3xl" fontWeight="bold" >はじめてを記録しよう</Text>
+        </Box>
 
         <Divider/>
 

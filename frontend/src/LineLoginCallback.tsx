@@ -1,6 +1,6 @@
 import './App.css'
 import { Box, Text, useToast } from "@chakra-ui/react"
-import {  useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { API_BASE_URL } from './apiClient'
 
@@ -37,21 +37,21 @@ export const LineLoginCallback = () => {
       })
     }).then(response => {
       if (response.status !== 201) {
-        throw new Error("ステータスコードが不正です, "+response.status)
+        throw new Error("ステータスコードが不正です, " + response.status)
       }
       return response.json()
     }).then(responseData => {
-      
+
+      localStorage.setItem("authorization", responseData.accessToken)
       navigate({
         pathname: '/',
-        search: '?authorization='+responseData.accessToken,
       })
       toast({
         position: 'bottom',
         title: "ログインしました",
         description: "さっそく、きょうのはじめてを記録しましょう"
       })
-    }).catch(error=>{
+    }).catch(error => {
       console.error(error)
       toast({
         position: 'bottom',

@@ -7,16 +7,16 @@ import { useAuthorization } from './useAuthorization'
 import EmojiPicker from 'emoji-picker-react'
 import PinIcon from "./assets/pin-48.svg"
 
-export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string, fileUrls: string[], emoji?: string, location?: {lat: number, lng: number}}) => Promise<void> }) => {
+export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string, fileUrls: string[], emoji?: string, location?: { lat: number, lng: number } }) => Promise<void> }) => {
   const [content, setContent] = useState("")
   const [files, setFiles] = useState<File[]>([])
-  const [emoji, setEmoji] = useState<string|undefined>(undefined)
+  const [emoji, setEmoji] = useState<string | undefined>(undefined)
   const [isDisplayEmojiPicker, setIsDisplayEmojiPicker] = useState(false)
   const authorization = useAuthorization()
 
-  const [location, setLocation] = useState<{lat: number, lng: number}|undefined>(undefined)
+  const [location, setLocation] = useState<{ lat: number, lng: number } | undefined>(undefined)
 
-  
+
   const [isLoading, setIsLoading] = useState(false)
 
   const uploadFile = (): Promise<string[]> => {
@@ -34,14 +34,14 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
           if (res.status !== 200) throw new Error("URLを取得できませんでした" + JSON.stringify(query))
           return res.json()
         }).then(({ url: fileUrl }: { url: string }) => {
-            return fetch(fileUrl, {
-              method: "PUT",
-              body: file,
-            }).then((res) => {
-              if (res.status !== 200) throw new Error("アップロードできませんでした" + JSON.stringify(query))
-              return decodeURI(fileUrl)
-            });
-          })
+          return fetch(fileUrl, {
+            method: "PUT",
+            body: file,
+          }).then((res) => {
+            if (res.status !== 200) throw new Error("アップロードできませんでした" + JSON.stringify(query))
+            return decodeURI(fileUrl)
+          });
+        })
       }
       ))
   }
@@ -50,17 +50,17 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
     <Textarea
       value={content}
       onChange={(value) => setContent(value.target.value)}
-      placeholder='Write your FTFT'
+      placeholder='きょうの「はじめて」を記録しましょう✍️'
     />
-   
+
     <Box display="flex" justifyContent="space-between">
       <Box display="flex" gap={2} flexWrap="wrap">
         <Box position="relative">
           {isDisplayEmojiPicker && <Box zIndex={1} position="absolute" top="40px"><EmojiPicker searchDisabled skinTonesDisabled onEmojiClick={(emojiClickData) => {
             setEmoji(emojiClickData.emoji)
             setIsDisplayEmojiPicker(false)
-          }}/></Box>}
-          <IconButton aria-label='' icon={emoji === undefined ? <ChatIcon /> : <span>{emoji}</span> } onClick={() => setIsDisplayEmojiPicker(!isDisplayEmojiPicker)}/>
+          }} /></Box>}
+          <IconButton aria-label='' icon={emoji === undefined ? <ChatIcon /> : <span>{emoji}</span>} onClick={() => setIsDisplayEmojiPicker(!isDisplayEmojiPicker)} />
         </Box>
 
         <IconButton aria-label='' icon={location === undefined ? <img width="18px" height="18px" src={PinIcon} /> : <span>📍</span>} onClick={() => {
@@ -76,7 +76,7 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
             })
           })
         }} />
-        
+
         <Box position="relative">
           <Input position="absolute" zIndex={1} top={0} left={0} width="100%" opacity="0" type="file" multiple onChange={(event: ChangeEvent<HTMLInputElement>) => {
             console.log(event.target.files)
@@ -116,7 +116,7 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
         } finally {
           setIsLoading(false)
         }
-        
+
       }}>
         記録に残す
       </Button>

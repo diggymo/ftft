@@ -9,6 +9,7 @@ import { Home } from './Home'
 import { ErrorBoundary } from "react-error-boundary";
 import { Login } from './Login'
 import { LineLoginCallback } from './LineLoginCallback'
+import { Setting } from './Setting'
 
 const queryClient = new QueryClient()
 
@@ -18,6 +19,10 @@ function App() {
     {
       path: "/",
       element: <Home />,
+    },
+    {
+      path: "/setting",
+      element: <Setting />,
     },
     {
       path: "/login",
@@ -31,19 +36,19 @@ function App() {
 
 
   return <ChakraProvider resetCSS>
-      <ErrorBoundary
-        fallbackRender={({ resetErrorBoundary }) => {
-          return <Container display="flex" justifyContent="center" gap={4}><Text fontSize="lg">🙄問題が発生しました🤯</Text><Button onClick={() => {
-            resetErrorBoundary()
-          }}>リロード</Button></Container>
-        }}
-      >
-        <QueryClientProvider client={queryClient}>
+    <ErrorBoundary
+      fallbackRender={({ resetErrorBoundary }) => {
+        return <Container display="flex" justifyContent="center" gap={4}><Text fontSize="lg">🙄問題が発生しました🤯</Text><Button onClick={() => {
+          resetErrorBoundary()
+        }}>リロード</Button></Container>
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
 
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </ErrorBoundary>
-    </ChakraProvider>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </ErrorBoundary>
+  </ChakraProvider>
 }
 
 export default App
