@@ -10,13 +10,13 @@ export const setAppConfig = async () => {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.enableCors();
 
-  const config = new DocumentBuilder()
-    .setTitle('FTFT')
-    .setDescription('FTFT')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  // const config = new DocumentBuilder()
+  //   .setTitle('FTFT')
+  //   .setDescription('FTFT')
+  //   .setVersion('1.0')
+  //   .addBearerAuth()
+  //   .build();
+  // const document = SwaggerModule.createDocument(app, config);
+  // SwaggerModule.setup('api', app, document);
   return app;
 };

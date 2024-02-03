@@ -45,7 +45,7 @@ export class FtftService {
     });
   }
 
-  async searchFtft(userId: string, offsetId?: string) {
+  async searchFtft(userId: string, offsetId?: string, limitSize?: number) {
     const ftfts = await this.dynamoDb.query({
       TableName: 'ftft',
       IndexName: 'latest',
@@ -53,6 +53,7 @@ export class FtftService {
       ExpressionAttributeValues: {
         ':userId': userId,
       },
+      Limit: limitSize,
       ExclusiveStartKey: offsetId !== undefined ? { id: offsetId } : undefined,
       ScanIndexForward: false,
     });

@@ -4,6 +4,8 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as secretsManager from 'aws-cdk-lib/aws-secretsmanager';
+import * as events from "aws-cdk-lib/aws-events"
+import * as targets from 'aws-cdk-lib/aws-events-targets';
 
 import { Construct } from 'constructs';
 import path = require('path');
@@ -15,6 +17,12 @@ export class AppStack extends cdk.Stack {
     if (process.env.LINE_CHANNEL_SECRET === undefined) {
       throw new Error("`LINE_CHANNEL_SECRET`が設定されていません")
     }
+    if (process.env.LINE_CHANNEL_SECRET_FOR_MESSAGING === undefined) {
+      throw new Error("`LINE_CHANNEL_SECRET_FOR_MESSAGING`が設定されていません")
+    }
+    if (process.env.API_KEY === undefined) {
+      throw new Error("`API_KEY `が設定されていません")
+    }
     const mainapp = new lambda.Function(this, 'ftft-mainapp', {
       runtime: lambda.Runtime.NODEJS_18_X,
       handler: 'dist/src/entrypoint/serverless.handler',
@@ -24,7 +32,9 @@ export class AppStack extends cdk.Stack {
         NO_COLOR: "true",
         JWT_SECRET: "awsome_jwt_secret",
         TZ: "Asia/Tokyo",
-        LINE_CHANNEL_SECRET: process.env.LINE_CHANNEL_SECRET
+        LINE_CHANNEL_SECRET: process.env.LINE_CHANNEL_SECRET,
+        LINE_CHANNEL_SECRET_FOR_MESSAGING: process.env.LINE_CHANNEL_SECRET_FOR_MESSAGING,
+        API_KEY: process.env.API_KEY,
       },
       
       timeout: cdk.Duration.seconds(60)
@@ -104,9 +114,35 @@ export class AppStack extends cdk.Stack {
     ftftUserFilesBucket.addCorsRule({
       allowedHeaders: ["*"],
       allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT,s3.HttpMethods.HEAD],
-      allowedOrigins: ["http://localhost:5173", "https://d3ozb6rt05ntqw.cloudfront.net"]
+      allowedOrigins: ["http://localhost:5173", "https://d3ozb6rt05ntqw.cloudfront.net", "https://ftft.morifuji-is.ninja"]
     })
 
     ftftUserFilesBucket.grantReadWrite(mainapp)
+
+
+    // エンドポイントアクセスするためのパスワード設定
+    const connection = new events.Connection(this, 'BatchForReminderConnection', {
+      connectionName: "BatchForReminderConnection",
+      authorization: events.Authorization.apiKey(
+        'API-KEY',
+        cdk.SecretValue.unsafePlainText(process.env.API_KEY)
+      ),
+      description: 'Connection with special password',
+    })
+
+    // API送信先作成
+    const destination = new events.ApiDestination(this, 'BatchForReminder', {
+      apiDestinationName: "BatchForReminder",
+      connection,
+      endpoint: api.urlForPath("/ftft/reminder"),
+      description: 'Execute Batch',
+    })
+
+    // 毎日夜7時にリクエスト
+    new events.Rule(this, 'BatchForReminderRuke', {
+      ruleName: "BatchForReminderRuke",
+      schedule: events.Schedule.cron({minute: "0", hour: "10"}),
+      targets: [new targets.ApiDestination(destination)]
+    });
   }
 }

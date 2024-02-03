@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { GetCommand, QueryCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { GetCommand, QueryCommand, ScanCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -24,6 +24,11 @@ export class DynamodbService {
 
   public async query(props: ConstructorParameters<typeof QueryCommand>[0]) {
     const result = await this.client.send(new QueryCommand(props));
+    return result.Items ?? [];
+  }
+
+  public async scan(props: ConstructorParameters<typeof ScanCommand>[0]) {
+    const result = await this.client.send(new ScanCommand(props));
     return result.Items ?? [];
   }
 

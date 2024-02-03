@@ -57,7 +57,7 @@ export const LineLoginCallback = () => {
         position: 'bottom',
         status: "error",
         title: "エラーが発生しました",
-        description: "時間をあけて再度お試しください"
+        description: "iPhoneではSafari、AndroidではChromeで開いて再度お試しください"
       })
       navigate({
         pathname: '/login',

@@ -54,4 +54,13 @@ export class UserService {
 
     return LineUserSchema.parse(lineUser[0]);
   }
+
+  async findAllLineUsers() {
+    const lineUsers = await this.dynamoDb.scan({
+      TableName: TABLE_NAME,
+      IndexName: 'lineUserId',
+    });
+
+    return lineUsers.map((lineUser) => LineUserSchema.parse(lineUser));
+  }
 }

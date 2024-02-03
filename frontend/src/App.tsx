@@ -10,6 +10,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Login } from './Login'
 import { LineLoginCallback } from './LineLoginCallback'
 import { Setting } from './Setting'
+import { LineLogin } from './LineLogin'
 
 const queryClient = new QueryClient()
 
@@ -27,6 +28,10 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/line-login",
+      element: <LineLogin/>,
     },
     {
       path: "/line-login-callback",

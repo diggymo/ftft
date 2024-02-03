@@ -8,5 +8,6 @@ import { StorageModule } from 'src/storage/storage.module';
   imports: [DynamodbModule, StorageModule],
   controllers: [FtftController],
   providers: [FtftService],
+  exports: [FtftService],
 })
 export class FtftModule {}
