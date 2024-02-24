@@ -54,6 +54,11 @@ export class LineLoginService {
       .post<{ sub: string }>('https://api.line.me/oauth2/v2.1/verify', params)
       .then((response) => {
         return response.data.sub;
+      })
+      .catch((error) => {
+        console.error('IDトークンの検証に失敗しました');
+        console.error(error.response.data);
+        throw error;
       });
 
     const lineUser = await this.userService.createLineUser(lineUserId);

@@ -26,6 +26,7 @@ export class FtftService {
       fileUrls: string[];
       emoji?: string;
       location?: { lat: number; lng: number };
+      doneAt?: Date;
     };
   }) {
     const fileKeyList = ftft.fileUrls.map((fileUrl) => fileUrl.split('.amazonaws.com/')[1].split('?')[0]);
@@ -36,7 +37,7 @@ export class FtftService {
       location: ftft.location,
       fileKeyList,
       id: randomUUID(),
-      createdAt: new Date().toISOString(),
+      createdAt: (ftft.doneAt || new Date()).toISOString(),
     });
 
     this.dynamoDb.createItem({

@@ -3,8 +3,7 @@ import { IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFoot
 import './App.css'
 import { Box, Button, Divider, Text } from "@chakra-ui/react"
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { format, formatRelative, parseISO } from 'date-fns'
-import { ja } from 'date-fns/locale'
+import { differenceInDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, differenceInYears, format, parseISO } from 'date-fns'
 import { useAuthorization } from './useAuthorization'
 import { API_BASE_URL } from './apiClient'
 import 'react-calendar/dist/Calendar.css';
@@ -129,8 +128,38 @@ export const FtftList = () => {
 
 const CreatedAtLabel = memo(({ createdAt }: { createdAt: Date }) => {
   const [isRelative, setIsRelative] = useState(true)
+
+  const formatRelative = (date1: Date, date2: Date): string => {
+    if (differenceInMinutes(date1, date2) < 10) {
+      return "さっき"
+    }
+
+    if (differenceInMinutes(date1, date2) < 60) {
+      return differenceInMinutes(date1, date2) + "分前"
+    }
+
+    if (differenceInHours(date1, date2) < 24) {
+      return differenceInHours(date1, date2) + "時間前"
+    }
+
+    if (differenceInDays(date1, date2) < 7) {
+      return differenceInDays(date1, date2) + "日前"
+    }
+
+    if (differenceInWeeks(date1, date2) < 5) {
+      return differenceInWeeks(date1, date2) + "週間前"
+    }
+
+    if (differenceInMonths(date1, date2) < 12) {
+      return differenceInMonths(date1, date2) + "ヶ月前"
+    }
+
+    return differenceInYears(date1, date2) + "年前"
+    
+  }
+
   return <Text fontSize="sm" color="grey" onClick={() => setIsRelative(!isRelative)}>{
-    isRelative ? formatRelative(createdAt, new Date(), { locale: ja }) : format(createdAt, "yyyy/MM/dd HH:mm:ss")
+    isRelative ? formatRelative(new Date(), createdAt) : format(createdAt, "yyyy/MM/dd HH:mm:ss")
 
   }</Text>
 })

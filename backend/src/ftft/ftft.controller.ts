@@ -38,6 +38,7 @@ export class FtftController {
             lng: z.number(),
           })
           .optional(),
+        doneAt: z.string().datetime({ offset: true }).optional(),
       })
       .parse(_body);
     return this.ftftService.createFtft({
@@ -47,6 +48,7 @@ export class FtftController {
         fileUrls: body.fileUrls,
         emoji: body.emoji,
         location: body.location,
+        doneAt: body.doneAt !== undefined ? new Date(body.doneAt) : undefined,
       },
     });
   }

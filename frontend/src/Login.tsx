@@ -70,7 +70,7 @@ export const Login = () => {
           await liff.init({
             liffId: "2003019183-014OmGVB"
           })
-          liff.login({redirectUri: window.location.origin + "/line-login"})
+          liff.login()
         }}>LINEでログイン</Button>
 
 

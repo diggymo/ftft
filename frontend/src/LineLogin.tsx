@@ -26,6 +26,8 @@ export const LineLogin = () => {
 
     const idToken = liff.getIDToken()
 
+    localStorage.clear()
+
     const response = await fetch(API_BASE_URL + '/social-login/line/liff', {
       method: "POST",
       headers: {
@@ -60,15 +62,7 @@ export const LineLogin = () => {
         return
       }
 
-      alert("エラーが発生しました\nSafariもしくはChromeで開いてください")
-      toast({
-        position: 'bottom',
-        status: "error",
-        title: "エラーが発生しました",
-        description: "SafariもしくはChromeで開いてください"
-      })
-
-      navigate("/login")
+      liff.login()
     })
   }, [])
 

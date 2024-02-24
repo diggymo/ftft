@@ -18,7 +18,7 @@ export const Home = () => {
   const toast = useToast()
   
 
-  const saveFtft = async ({content, fileUrls, emoji, location}: {content: string, fileUrls: string[], emoji?: string, location?: {lat: number, lng: number}}) => {
+  const saveFtft = async ({content, fileUrls, emoji, location, doneAt}: {content: string, fileUrls: string[], emoji?: string, location?: {lat: number, lng: number}, doneAt?: Date}) => {
     await fetch(API_BASE_URL + '/ftft', {
       method: "POST",
       headers: {
@@ -29,21 +29,21 @@ export const Home = () => {
         title: content,
         fileUrls,
         emoji,
-        location
+        location,
+        doneAt
       })
     }).then(res=>{
-      console.log(res.status)
       if (res.status !== 201) throw new Error("送信できませんでした")
 
-      const message = `${content}${emoji ? `\n${emoji}` : ''}\n\n-------------\n\nFTFTであなたの"はじめて"を記録しよう✍️\n`
+      const message = `${content}${emoji ? `\n${emoji}` : ''}\n\n-------------\n\nFTFTであなたの"はじめて"を記録しよう✍️ #FTFT-app\n`
       toast({
         position: 'bottom',
         title: "記録しました✍️",
         description: <p>
           友達に
-          <Link href={`https://line.me/R/share?text=${encodeURI(message + "https://liff.line.me/2003019183-014OmGVB")}`}><u>LINE VOOM</u></Link>
+          <Link href={`https://line.me/R/share?text=${encodeURI(message + "https://ftft.morifuji-is.ninja/")}`}><u>LINE VOOM</u></Link>
           や
-          <Link href={`https://twitter.com/intent/tweet?text=${encodeURI(message)}&url=https://liff.line.me/2003019183-014OmGVB`}><u>X</u></Link>
+          <Link href={`https://twitter.com/intent/tweet?text=${encodeURI(message)}&url=https://ftft.morifuji-is.ninja/`}><u>X</u></Link>
           で共有しよう🥰
         </p>
       })

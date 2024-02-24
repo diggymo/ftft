@@ -1,16 +1,19 @@
 import { ChangeEvent, useState } from 'react'
 import './App.css'
 import { Box, Button, IconButton, Input, Textarea } from "@chakra-ui/react"
-import { AttachmentIcon, ChatIcon } from "@chakra-ui/icons"
+import { AttachmentIcon, ChatIcon, TimeIcon } from "@chakra-ui/icons"
 import { API_BASE_URL } from './apiClient'
 import { useAuthorization } from './useAuthorization'
 import EmojiPicker from 'emoji-picker-react'
 import PinIcon from "./assets/pin-48.svg"
+import { format } from 'date-fns'
 
-export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string, fileUrls: string[], emoji?: string, location?: { lat: number, lng: number } }) => Promise<void> }) => {
+export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string, fileUrls: string[], emoji?: string, location?: { lat: number, lng: number }, doneAt?: Date }) => Promise<void> }) => {
   const [content, setContent] = useState("")
   const [files, setFiles] = useState<File[]>([])
   const [emoji, setEmoji] = useState<string | undefined>(undefined)
+  const [doneAt, setDoneAt] = useState<Date | undefined>(undefined)
+  
   const [isDisplayEmojiPicker, setIsDisplayEmojiPicker] = useState(false)
   const authorization = useAuthorization()
 
@@ -63,6 +66,26 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
           <IconButton aria-label='' icon={emoji === undefined ? <ChatIcon /> : <span>{emoji}</span>} onClick={() => setIsDisplayEmojiPicker(!isDisplayEmojiPicker)} />
         </Box>
 
+        <Box position="relative">
+          <Box position="absolute"  zIndex={1} top={0} left={0} width="100%" height="100%" opacity="0" >
+            <Input css={{
+              "::-webkit-calendar-picker-indicator": {
+                position: "absolute",
+                "width": "100%",
+                "height": "100%",
+              }
+            }} size='sm' max={format(new Date(), "yyyy-MM-dd'T'HH:mm")} type="datetime-local" height="100%" px={0} onInput={e=>{
+              console.log(e.currentTarget.value)
+              if (!e.currentTarget.value) {
+                setDoneAt(undefined)  
+              } else 
+              setDoneAt(new Date(e.currentTarget.value))
+            }}/>
+          </Box>
+          {doneAt === undefined ? <IconButton aria-label='' icon={<TimeIcon />} />
+          : <Button >{format(doneAt, "M/d H:m")}</Button> }
+        </Box>
+        
         <IconButton aria-label='' icon={location === undefined ? <img width="18px" height="18px" src={PinIcon} /> : <span>📍</span>} onClick={() => {
           if (location !== undefined) {
             setLocation(undefined)
@@ -79,7 +102,6 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
 
         <Box position="relative">
           <Input position="absolute" zIndex={1} top={0} left={0} width="100%" opacity="0" type="file" multiple onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            console.log(event.target.files)
             if (event.target.files && event.target.files?.length >= 1) {
               setFiles(files.concat(...event.target.files))
             }
@@ -106,12 +128,13 @@ export const FtftForm = ({ onSaveFtft }: { onSaveFtft: (ftft: { content: string,
         setIsLoading(true)
         try {
           const fileUrls = await uploadFile()
-          await onSaveFtft({ content, fileUrls, emoji, location })
+          await onSaveFtft({ content, fileUrls, emoji, location, doneAt })
 
           setLocation(undefined)
           setFiles([])
           setContent("")
           setEmoji(undefined)
+          setDoneAt(undefined)
 
         } finally {
           setIsLoading(false)
