@@ -7,3 +7,16 @@ fallback_models=["bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0"]
 num_code_suggestions=5
 inline_code_comments=true
 extra_instructions="answer in Japanese"
+
+[pr_description]
+extra_instructions="answer in Japanese"
+
+[pr_questions]
+extra_instructions="answer in Japanese"
+
+[pr_code_suggestions]
+extra_instructions="answer in Japanese"
+
+[pr_update_changelog]
+extra_instructions="answer in Japanese"
+
