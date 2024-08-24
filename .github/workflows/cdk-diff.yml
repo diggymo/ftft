@@ -22,7 +22,7 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-region: ap-northeast-1
+        aws-region: ap-northeast-3
         role-to-assume: arn:aws:iam::262011991733:role/gha-ftft
     - run: |
         npm install
@@ -31,4 +31,4 @@ jobs:
     - name: CDKの差分を出力します
       run: cdk diff
       env:
-        AWS_DEFAULT_REGION: ap-northeast-1
+        AWS_DEFAULT_REGION: ap-northeast-3
