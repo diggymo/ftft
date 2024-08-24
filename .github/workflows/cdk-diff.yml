@@ -17,6 +17,11 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ap-northeast-1
+        role-to-assume: arn:aws:iam::151671725617:role/github-ftft
     - run: |
         npm install
         npm install -g aws-cdk
@@ -24,6 +29,4 @@ jobs:
     - name: CDKの差分を出力します
       run: cdk diff
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ap-northeast-1
