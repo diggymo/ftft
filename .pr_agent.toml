@@ -1,0 +1,4 @@
+[config]
+model="bedrock/anthropic.claude-3-haiku-20240307-v1:0"
+model_turbo="bedrock/anthropic.claude-3-haiku-20240307-v1:0"
+fallback_models=["bedrock/anthropic.claude-3-5-sonnet-20240620-v1:0"]
