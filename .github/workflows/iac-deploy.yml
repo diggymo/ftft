@@ -26,3 +26,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ap-northeast-1
+        LINE_CHANNEL_SECRET: ${{ secrets.LINE_CHANNEL_SECRET }}
+        LINE_CHANNEL_SECRET_FOR_MESSAGING: ${{ secrets.LINE_CHANNEL_SECRET_FOR_MESSAGING }}
+        API_KEY: ${{ secrets.API_KEY }}
