@@ -3,11 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { STS } from '@aws-sdk/client-sts';
 
+import {tracer} from "../common/tracer"
+
 @Injectable()
 export class StorageService {
   private client: S3Client;
   constructor() {
-    this.client = new S3Client({ region: 'ap-northeast-3' });
+    this.client = tracer.captureAWSv3Client(new S3Client({ region: 'ap-northeast-3' }));
 
     const sts = new STS();
     sts.getCallerIdentity({}).catch((error) => {

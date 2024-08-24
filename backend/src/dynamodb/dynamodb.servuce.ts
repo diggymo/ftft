@@ -1,14 +1,14 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { GetCommand, QueryCommand, ScanCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { Injectable } from '@nestjs/common';
-
+import {tracer} from "../common/tracer"
 @Injectable()
 export class DynamodbService {
   private client: DynamoDBClient;
   constructor() {
-    this.client = new DynamoDBClient({
+    this.client = tracer.captureAWSv3Client(new DynamoDBClient({
       endpoint: process.env.DYNAMODB_ENDPOINT ?? undefined,
-    });
+    }));
   }
 
   public async getItem({ tableName, key }: { tableName: string; key: any }) {
