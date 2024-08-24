@@ -8,6 +8,8 @@ on:
 
 jobs:
   diff:
+    permissions:
+      id-token: write
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -17,6 +19,11 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ap-northeast-3
+        role-to-assume: arn:aws:iam::262011991733:role/gha-ftft
     - run: |
         npm install
         npm install -g aws-cdk
@@ -24,6 +31,4 @@ jobs:
     - name: CDKの差分を出力します
       run: cdk diff
       env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ap-northeast-1
+        AWS_DEFAULT_REGION: ap-northeast-3
