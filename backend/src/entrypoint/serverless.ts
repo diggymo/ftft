@@ -2,6 +2,7 @@ import * as serverlessExpress from '@codegenie/serverless-express';
 
 import { Callback, Context, Handler } from 'aws-lambda';
 import { setAppConfig } from './_shared';
+import '../common/tracer';
 
 let server: Handler;
 

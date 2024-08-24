@@ -17,3 +17,11 @@ export const FtftSchema = z.object({
 });
 
 export type Ftft = z.infer<typeof FtftSchema>;
+
+export const FtftDbSchema = FtftSchema.omit({
+  createdAt: true,
+}).merge(
+  z.object({
+    createdAt: z.string().datetime({ offset: true }),
+  }),
+);

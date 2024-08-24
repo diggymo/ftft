@@ -5,6 +5,7 @@ rm -rf node_modules
 # npm run build
 # npm prune --production
 yarn
+yarn lint
 yarn run build -- --config nest-cli.serverless.json
 yarn --production
 # pnpm i

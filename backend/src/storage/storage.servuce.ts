@@ -23,7 +23,9 @@ export class StorageService {
     const command = new GetObjectCommand(input);
     // const response = await this.client.send(command)
 
-    const url = await getSignedUrl(this.client, command, { expiresIn: 60 * 60 });
+    const url = await getSignedUrl(this.client, command, {
+      expiresIn: 60 * 60,
+    });
 
     return url;
   }
@@ -35,7 +37,9 @@ export class StorageService {
       // ContentType: contentType,
     };
     const command = new PutObjectCommand(input);
-    const url = await getSignedUrl(this.client, command, { expiresIn: 60 * 60 * 24 });
+    const url = await getSignedUrl(this.client, command, {
+      expiresIn: 60 * 60 * 24,
+    });
 
     return url;
   }

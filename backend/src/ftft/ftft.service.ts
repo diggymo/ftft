@@ -1,17 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DynamodbService } from 'src/dynamodb/dynamodb.servuce';
-import { FtftSchema } from './ftft.entity';
+import { Ftft, FtftDbSchema, FtftSchema } from './ftft.entity';
 import { z } from 'zod';
 import { randomUUID } from 'crypto';
 import { StorageService } from 'src/storage/storage.servuce';
-
-const DbSchema = FtftSchema.omit({
-  createdAt: true,
-}).merge(
-  z.object({
-    createdAt: z.string().datetime({ offset: true }),
-  }),
-);
 
 @Module({})
 export class FtftService {
@@ -30,7 +22,7 @@ export class FtftService {
     };
   }) {
     const fileKeyList = ftft.fileUrls.map((fileUrl) => fileUrl.split('.amazonaws.com/')[1].split('?')[0]);
-    const ftftRecord = DbSchema.parse({
+    const ftftRecord = FtftDbSchema.parse({
       userId: ftft.userId,
       title: ftft.title,
       emoji: ftft.emoji,
@@ -46,7 +38,7 @@ export class FtftService {
     });
   }
 
-  async searchFtft(userId: string, offsetId?: string, limitSize?: number) {
+  async searchFtft(userId: string, offsetId?: string, limitSize?: number): Promise<Ftft[]> {
     const ftfts = await this.dynamoDb.query({
       TableName: 'ftft',
       IndexName: 'latest',
@@ -61,13 +53,16 @@ export class FtftService {
 
     return Promise.all(
       ftfts.map((item) => {
-        const parsedItem = DbSchema.parse(item);
+        const parsedItem = FtftDbSchema.parse(item);
 
         return Promise.all(
           (parsedItem.fileKeyList ?? []).map((fileKey) => this.storage.getGettingObjectUrl({ key: fileKey })),
         ).then((urls) => {
           return {
-            ...FtftSchema.parse({ ...parsedItem, createdAt: new Date(parsedItem.createdAt) }),
+            ...FtftSchema.parse({
+              ...parsedItem,
+              createdAt: new Date(parsedItem.createdAt),
+            }),
             fileUrls: urls,
           };
         });
