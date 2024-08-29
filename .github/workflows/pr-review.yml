@@ -18,20 +18,11 @@ jobs:
         with:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::151671725617:role/github-ftft
-      - run: echo $GITHUB_WORKSPACE/.pr_agent.toml
-      - run: pwd
-      - run: echo $PWD/.pr_agent.toml
-      - run: echo "${{ vars.PR_AGENT_CONFIG_FILE }}" > $GITHUB_WORKSPACE/.pr_agent.toml
+      - run: echo '${{ vars.PR_AGENT_CONFIG_FILE }}' > $GITHUB_WORKSPACE/.pr_agent.toml
       - run: cat $GITHUB_WORKSPACE/.pr_agent.toml
-      - run: echo '${{ vars.PR_AGENT_CONFIG_FILE }}' > $GITHUB_WORKSPACE/output.txt
-      - run: cat output.txt
-      - run: echo ${{ vars.PR_AGENT_CONFIG_FILE }} > $GITHUB_WORKSPACE/output2.txt
-      - run: cat output2.txt
-      - run: echo ${{ vars.PR_AGENT_CONFIG_FILE }} > $GITHUB_WORKSPACE/huga.toml
-      - run: cat $GITHUB_WORKSPACE/huga.toml
-      # - name: PR Agent action step
-      #   id: pragent
-      #   uses: Codium-ai/pr-agent@main
-      #   env:
-      #     OPENAI_KEY: dummy
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: PR Agent action step
+        id: pragent
+        uses: Codium-ai/pr-agent@main
+        env:
+          OPENAI_KEY: dummy
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
