@@ -21,6 +21,10 @@ jobs:
       - run: echo $GITHUB_WORKSPACE/.pr_agent.toml
       - run: pwd
       - run: echo $PWD/.pr_agent.toml
+      - run: echo "${{ vars.PR_AGENT_CONFIG_FILE }}" > $GITHUB_WORKSPACE/.pr_agent.toml
+      - run: cat $GITHUB_WORKSPACE/.pr_agent.toml
+      - run: echo "${{ vars.PR_AGENT_CONFIG_FILE }}" | sed 's/\\n/\n/g' > output.txt
+      - run: cat output.txt
       # - name: PR Agent action step
       #   id: pragent
       #   uses: Codium-ai/pr-agent@main
