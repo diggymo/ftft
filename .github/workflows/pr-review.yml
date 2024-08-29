@@ -18,8 +18,6 @@ jobs:
         with:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::151671725617:role/github-ftft
-      # 差し替えが容易になるよう、variablesから取得
-      - run: echo "${{ vars.PR_AGENT_CONFIG_FILE }}" > $GITHUB_WORKSPACE/.pr_agent.toml
       - name: PR Agent action step
         id: pragent
         uses: Codium-ai/pr-agent@main
