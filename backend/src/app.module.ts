@@ -8,6 +8,7 @@ import { FtftModule } from './ftft/ftft.module';
 import { StorageModule } from './storage/storage.module';
 import { SocialLoginModule } from './sociallogin/sociallogin.module';
 import { ReminderModule } from './ftft/reminder/reminder.module';
+import "./common/tracer"
 
 @Module({
   imports: [
