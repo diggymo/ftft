@@ -19,3 +19,6 @@ extra_instructions="必ず日本語で回答してください。"
 
 [pr_update_changelog]
 extra_instructions="必ず日本語で回答してください。"
+
+[litellm]
+drop_params = true
