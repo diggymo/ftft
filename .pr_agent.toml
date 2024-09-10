@@ -6,19 +6,19 @@ fallback_models=["bedrock/anthropic.claude-3-haiku-20240307-v1:0"]
 [pr_reviewer]
 num_code_suggestions=5
 inline_code_comments=true
-extra_instructions="必ず日本語で回答してください。"
+extra_instructions="Please be sure to answer the description in Japanese."
 
 [pr_description]
-extra_instructions="必ず日本語で回答してください。"
+extra_instructions="Please be sure to answer the description in Japanese."
 
 [pr_questions]
-extra_instructions="必ず日本語で回答してください。"
+extra_instructions="Please be sure to answer the description in Japanese."
 
 [pr_code_suggestions]
-extra_instructions="必ず日本語で回答してください。"
+extra_instructions="Please be sure to answer the description in Japanese."
 
 [pr_update_changelog]
-extra_instructions="必ず日本語で回答してください。"
+extra_instructions="Please be sure to answer the description in Japanese."
 
 [litellm]
 drop_params = true
