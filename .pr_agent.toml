@@ -4,7 +4,6 @@ model_turbo="bedrock/anthropic.claude-3-haiku-20240307-v1:0"
 fallback_models=["bedrock/anthropic.claude-3-haiku-20240307-v1:0"]
 
 [pr_reviewer]
-num_code_suggestions=5
 inline_code_comments=true
 extra_instructions="""
 You must always answer in Japanese.
@@ -12,6 +11,7 @@ You must always answer in Japanese.
 """
 
 [pr_description]
+publish_labels=false
 extra_instructions="""
 You must always answer in Japanese.
 必ず日本語で回答してください。
@@ -37,3 +37,7 @@ You must always answer in Japanese.
 
 [litellm]
 drop_params = true
+
+[ignore]
+glob = ['package-lock.json']
+
