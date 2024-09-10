@@ -6,10 +6,10 @@ fallback_models=["bedrock/anthropic.claude-3-haiku-20240307-v1:0"]
 [pr_reviewer]
 num_code_suggestions=5
 inline_code_comments=true
-extra_instructions="Please use Japanese in descriptions."
+extra_instructions="Please be sure to answer use Japanese in descriptions."
 
 [pr_description]
-extra_instructions="Please use Japanese in descriptions."
+extra_instructions="Please be sure to answer use Japanese in descriptions."
 
 [pr_questions]
 extra_instructions="日本語で回答してください"
