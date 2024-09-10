@@ -9,4 +9,4 @@ const app = new cdk.App();
 
 new AppStack(app, 'FtftStack', {});
 
-new FrontendStack(app, 'FrontendStack')
+// new FrontendStack(app, 'FrontendStack')

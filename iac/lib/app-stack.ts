@@ -138,11 +138,11 @@ export class AppStack extends cdk.Stack {
       description: 'Execute Batch',
     })
 
-    // 毎日夜7時にリクエスト
-    new events.Rule(this, 'BatchForReminderRuke', {
-      ruleName: "BatchForReminderRuke",
-      schedule: events.Schedule.cron({minute: "0", hour: "10"}),
-      targets: [new targets.ApiDestination(destination)]
-    });
+    // // 毎日夜7時にリクエスト
+    // new events.Rule(this, 'BatchForReminderRuke', {
+    //   ruleName: "BatchForReminderRuke",
+    //   schedule: events.Schedule.cron({minute: "0", hour: "10"}),
+    //   targets: [new targets.ApiDestination(destination)]
+    // });
   }
 }
