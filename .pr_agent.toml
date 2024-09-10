@@ -39,5 +39,5 @@ You must always answer in Japanese.
 drop_params = true
 
 [ignore]
-glob = ['package-lock.json']
+glob = ['**/package-lock.json']
 
