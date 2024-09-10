@@ -17,7 +17,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ap-northeast-1
-          role-to-assume: arn:aws:iam::151671725617:role/github-ftft
+          role-to-assume: arn:aws:iam::528715375628:role/GitHubPrAutoReview
       - run: echo '${{ vars.PR_AGENT_CONFIG_FILE }}' > $GITHUB_WORKSPACE/.pr_agent.toml
       - run: cat $GITHUB_WORKSPACE/.pr_agent.toml
       - name: PR Agent action step
